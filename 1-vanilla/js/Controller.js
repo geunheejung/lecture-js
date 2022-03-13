@@ -1,4 +1,4 @@
-const tag = "[Controller]";
+import { EVENT_TYPE } from './views/SearchFormView.js';
 
 export default class Controller {
   constructor(store, { searchFormView }) {
@@ -10,10 +10,17 @@ export default class Controller {
   }
 
   subscribeViewEvents = () => {
-    this.searchFormView.on('@submit', event => this.search(event));
+    this.searchFormView.on(EVENT_TYPE.SUBMIT, this.search)
+      .on(EVENT_TYPE.CLEAR, this.clear);
+
   }
 
   search = ({ detail: { value } }) => {
-    console.log(value);
+    const { storage: { productData } } = this.store;
+    const searhced = productData.filter(({ id, name }) => name.includes(value));
+
+  }
+
+  clear = (e) => {
   }
 }
