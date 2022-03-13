@@ -1,4 +1,4 @@
-import { EVENT_TYPE } from './views/SearchFormView.js';
+import { EVENT_TYPE } from './views/View.js';
 
 export default class Controller {
   constructor(store, { searchFormView, searchResultView }) {
@@ -13,7 +13,7 @@ export default class Controller {
   subscribeViewEvents = () => {
     this.searchFormView
       .on(EVENT_TYPE.SUBMIT, this.search)
-      .on(EVENT_TYPE.CLEAR, this.clear);
+      .on(EVENT_TYPE.RESET, this.reset);
 
   }
 
@@ -22,11 +22,14 @@ export default class Controller {
     this.render();
   }
 
-  clear = (e) => {
+  reset = (e) => {
+    this.store.reset();
+    this.render();
   }
 
   render = () => {
     if (this.store.searchKeyword.length > 0) {
+      debugger;
       this.searchResultView.show(this.store.searchResult);
       return;
     }

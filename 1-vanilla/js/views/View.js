@@ -1,6 +1,12 @@
 import { emit, on } from "../helpers.js";
 
-const tag = "[View]";
+const SUBMIT = '@submit';
+const RESET = '@reset';
+
+export const EVENT_TYPE = {
+  SUBMIT,
+  RESET
+}
 
 export default class View {
   constructor(element) {

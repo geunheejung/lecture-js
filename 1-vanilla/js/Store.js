@@ -14,4 +14,9 @@ export default class Store {
     this.searchKeyword = keyword;
     this.searchResult = this.storage.productData.filter(product => product.name.includes(keyword));
   }
+
+  reset = () => {
+    this.searchKeyword = '';
+    this.searchResult = [];
+  }
 }

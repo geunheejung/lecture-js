@@ -1,13 +1,5 @@
-import View from './View.js';
+import View, { EVENT_TYPE } from './View.js';
 import { qs, on } from '../helpers.js';
-
-const SUBMIT = '@submit';
-const CLEAR = '@clear';
-
-export const EVENT_TYPE = {
-  SUBMIT,
-  CLEAR
-}
 
 export default class SearchFormView extends View {
   constructor() {
@@ -37,7 +29,7 @@ export default class SearchFormView extends View {
     if (style.display === 'none' && value.length > 0) this.showResetButton();
     if (style.display === 'block' && !value.length) {
       this.showResetButton(false);
-      this.clearEvent();
+      this.resetEvent();
     }
   }
 
@@ -53,8 +45,8 @@ export default class SearchFormView extends View {
   }
 
   handleReset = () => {
-    this.clearEvent();
+    this.resetEvent();
   }
 
-  clearEvent = (isClear = true) => this.emit(EVENT_TYPE.CLEAR, { value: isClear });
+  resetEvent = (isReset = true) => this.emit(EVENT_TYPE.RESET, { value: isReset });
 }
