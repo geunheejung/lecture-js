@@ -43,6 +43,7 @@ export default class SearchFormView extends View {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     const { value } = this.inputElement;
     const payload = {
       value,
