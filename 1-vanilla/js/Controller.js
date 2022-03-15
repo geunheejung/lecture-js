@@ -1,13 +1,19 @@
 import { EVENT_TYPE } from './views/View.js';
 
 export default class Controller {
-  constructor(store, { searchFormView, searchResultView }) {
+  constructor(store, {
+    searchFormView,
+    searchResultView,
+    TabView,
+  }) {
     this.store = store;
 
     this.searchFormView = searchFormView;
     this.searchResultView = searchResultView;
+    this.tabView = TabView;
 
     this.subscribeViewEvents();
+    this.render();
   }
 
   subscribeViewEvents = () => {
@@ -29,11 +35,15 @@ export default class Controller {
 
   render = () => {
     if (this.store.searchKeyword.length > 0) {
-      debugger;
-      this.searchResultView.show(this.store.searchResult);
-      return;
+      return this.renderSearchResult();
     }
 
+    this.tabView.show(this.store.selectedTab);
     this.searchResultView.hide();
+  }
+
+  renderSearchResult = () => {
+    this.tabView.hide();
+    this.searchResultView.show(this.store.searchResult);
   }
 }
