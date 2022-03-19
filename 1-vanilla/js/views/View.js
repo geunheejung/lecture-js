@@ -2,10 +2,12 @@ import { emit, on } from "../helpers.js";
 
 const SUBMIT = '@submit';
 const RESET = '@reset';
+const CHANGE = '@change';
 
 export const EVENT_TYPE = {
   SUBMIT,
-  RESET
+  RESET,
+  CHANGE
 }
 
 export default class View {

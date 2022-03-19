@@ -4,6 +4,7 @@ import storage from "./storage.js";
 import SearchFormView from './views/SearchFormView.js';
 import SearchResultView from './views/SearchResultView.js';
 import TabView from './views/TabView.js';
+import TabResultView from './views/TabResultView.js';
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -13,7 +14,8 @@ function main() {
   const views = {
     searchFormView: new SearchFormView(),
     searchResultView: new SearchResultView(),
-    TabView: new TabView(),
+    tabView: new TabView(),
+    tabResultView: new TabResultView(),
   };
 
   new Controller(store, views);

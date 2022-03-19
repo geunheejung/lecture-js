@@ -1,5 +1,5 @@
-import View from './View.js';
-import { qs, qsAll } from '../helpers.js';
+import View, { EVENT_TYPE } from './View.js';
+import { qs, qsAll, delegate } from '../helpers.js';
 
 export const TabType = {
   KEYWORD: 'KEYWORD', // 추천
@@ -16,16 +16,23 @@ export default class SearchResultView extends View {
     super(qs('#tab-view'));
 
     this.template = new Template();
+    this.bindEvent();
+  }
+
+  bindEvent = () => {
+    delegate(this.element, 'click', 'li', this.handleClick);
+  }
+
+  handleClick = ({ target }) => {
+    const payload = { tabType: target.dataset.tab, }
+    this.emit(EVENT_TYPE.CHANGE, payload)
   }
 
   show(selectedTab) {
     this.render();
 
-    qsAll('li', this.element).forEach(li => {
-      li.className = li.dataset.tab === selectedTab
-        ? 'active'
-        : '';
-    })
+    const liElements = qsAll('li', this.element);
+    liElements.forEach(li => li.className = li.dataset.tab === selectedTab ? 'active' : '');
 
     super.show();
   }
@@ -36,12 +43,6 @@ export default class SearchResultView extends View {
 }
 
 class Template {
-  constructor() {
-    this.activated = TabType.KEYWORD;
-
-  }
-
-
   getTabList = () => (
     `
       <ul class="tabs">
@@ -57,10 +58,7 @@ class Template {
 
   _getTab = ({ tabType, tabLable }) => {
     return `
-      <li 
-        data-tab="${tabType}" 
-                    
-      >
+      <li data-tab="${tabType}">
         ${tabLable}
       </li>
     `;

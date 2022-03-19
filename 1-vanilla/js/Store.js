@@ -22,4 +22,13 @@ export default class Store {
     this.searchKeyword = '';
     this.searchResult = [];
   }
+
+  get tabData() {
+    switch (this.selectedTab) {
+      case TabType.KEYWORD: return this.storage.keywordData;
+      case TabType.HISTORY: return this.storage.historyData;
+      default:
+        return []
+    }
+  }
 }

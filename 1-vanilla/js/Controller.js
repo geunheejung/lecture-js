@@ -4,13 +4,15 @@ export default class Controller {
   constructor(store, {
     searchFormView,
     searchResultView,
-    TabView,
+    tabView,
+    tabResultView,
   }) {
     this.store = store;
 
     this.searchFormView = searchFormView;
     this.searchResultView = searchResultView;
-    this.tabView = TabView;
+    this.tabView = tabView;
+    this.tabResultView = tabResultView;
 
     this.subscribeViewEvents();
     this.render();
@@ -21,6 +23,8 @@ export default class Controller {
       .on(EVENT_TYPE.SUBMIT, this.search)
       .on(EVENT_TYPE.RESET, this.reset);
 
+    this.tabView
+      .on(EVENT_TYPE.CHANGE, this.handleTab)
   }
 
   search = ({ detail: { value } }) => {
@@ -33,12 +37,23 @@ export default class Controller {
     this.render();
   }
 
+  handleTab = ({ detail: { tabType } }) => {
+    this.store.selectedTab = tabType;
+    this.render();
+  }
+
   render = () => {
-    if (this.store.searchKeyword.length > 0) {
+    const {
+      searchKeyword,
+      selectedTab,
+    } = this.store;
+
+    if (searchKeyword.length > 0) {
       return this.renderSearchResult();
     }
 
-    this.tabView.show(this.store.selectedTab);
+    this.tabView.show(selectedTab);
+    this.tabResultView.show(this.store.tabData)
     this.searchResultView.hide();
   }
 
