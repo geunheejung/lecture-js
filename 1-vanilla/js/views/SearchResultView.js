@@ -1,4 +1,5 @@
 import View from './View.js';
+
 import { qs } from '../helpers.js';
 
 export default class SearchResultView extends View {

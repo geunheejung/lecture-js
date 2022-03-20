@@ -63,3 +63,5 @@ export function createPastDate(date = 1, now = new Date()) {
 export function createNextId(list = []) {
   return Math.max(...list.map((item) => item.id)) + 1;
 }
+
+export const hideAll = (...view) => view.forEach(row => row.hide());

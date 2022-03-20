@@ -9,7 +9,7 @@ export default class SearchFormView extends View {
     this.resetElement = qs('[type=reset]', this.element);
 
     this.showResetButton(false);
-    this.bindEvent(); // view가 생성 -> event 바인딩.
+    this.bindEvent();
   }
 
   showResetButton = (visible = true) => {
@@ -38,7 +38,7 @@ export default class SearchFormView extends View {
 
     const { value } = this.inputElement;
     const payload = {
-      value,
+      data: value,
     }
 
     this.emit(EVENT_TYPE.SUBMIT, payload);
@@ -48,5 +48,13 @@ export default class SearchFormView extends View {
     this.resetEvent();
   }
 
-  resetEvent = (isReset = true) => this.emit(EVENT_TYPE.RESET, { value: isReset });
+  resetEvent = () => {
+    this.emit(EVENT_TYPE.RESET);
+    this.showResetButton(false);
+  }
+
+  changeInput = (keyword = '') => {
+    if (keyword.length > 0) this.showResetButton();
+    this.inputElement.value = keyword;
+  }
 }

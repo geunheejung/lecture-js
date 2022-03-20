@@ -3,11 +3,13 @@ import { emit, on } from "../helpers.js";
 const SUBMIT = '@submit';
 const RESET = '@reset';
 const CHANGE = '@change';
+const MOVE = '@move';
 
 export const EVENT_TYPE = {
   SUBMIT,
   RESET,
-  CHANGE
+  CHANGE,
+  MOVE,
 }
 
 export default class View {

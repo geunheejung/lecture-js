@@ -23,12 +23,7 @@ export default class Store {
     this.searchResult = [];
   }
 
-  get tabData() {
-    switch (this.selectedTab) {
-      case TabType.KEYWORD: return this.storage.keywordData;
-      case TabType.HISTORY: return this.storage.historyData;
-      default:
-        return []
-    }
-  }
+  get keywordData() { return this.storage.keywordData; }
+  get historyData() { return this.storage.historyData; }
+
 }
