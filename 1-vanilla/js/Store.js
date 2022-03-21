@@ -13,6 +13,9 @@ export default class Store {
     this.selectedTab = TabType.KEYWORD;
   }
 
+  get keywordData() { return this.storage.keywordData; }
+  get historyData() { return this.storage.historyData; }
+
   search = (keyword) => {
     this.searchKeyword = keyword;
     this.searchResult = this.storage.productData.filter(product => product.name.includes(keyword));
@@ -23,7 +26,21 @@ export default class Store {
     this.searchResult = [];
   }
 
-  get keywordData() { return this.storage.keywordData; }
-  get historyData() { return this.storage.historyData; }
+  removeHistoryData = (index) => {
+    const filtered = this.historyData
+      .filter(({ id }) => id !== parseInt(index))
+      .map((data, idx) => ({ ...data, id: idx + 1 }));
 
+    this.storage.historyData = filtered;
+  }
+
+  setHistoryData(keyword) {
+    const data = {
+      id: this.historyData.length + 1,
+      keyword,
+      date: new Date(),
+    }
+
+    this.storage.historyData.push(data);
+  }
 }

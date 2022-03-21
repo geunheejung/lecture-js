@@ -3,10 +3,13 @@ import Template from './Template.js';
 import { qs, delegate } from '../helpers.js';
 
 export default class KeywordListView extends View {
-  constructor() {
-    super(qs('#keyword-list-view'));
+  constructor(
+    element = qs('#keyword-list-view'),
+    template = new _Template()
+  ) {
+    super(element);
 
-    this.template = new _Template();
+    this.template = template;
     this.bindEvent();
   }
 
@@ -29,7 +32,7 @@ export default class KeywordListView extends View {
 
 class _Template extends Template{
   constructor() {
-    super('list');
+    super();
   }
 
   _getItem = ({ id, keyword }) => (

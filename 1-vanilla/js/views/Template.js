@@ -1,11 +1,11 @@
 export default class Template {
-  constructor(ulClass) {
-    this.ulClass = ulClass;
+  constructor(listClassName = 'list') {
+    this.listClassName = listClassName;
   }
 
   getList = (data = []) => {
     return `
-      <ul class="${this.ulClass}">${data.map(this._getItem)}</ul>
+      <ul class="${this.listClassName}">${data.map(this._getItem).join('')}</ul>
     `
   }
 
@@ -14,7 +14,7 @@ export default class Template {
   }
 
   getEmptyMessage = () => {
-    return `
+    return ` 
       <div class="empty-box">검색결과가 없습니다.</div>
     `;
   }

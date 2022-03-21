@@ -4,12 +4,16 @@ const SUBMIT = '@submit';
 const RESET = '@reset';
 const CHANGE = '@change';
 const MOVE = '@move';
+const REMOVE = '@remove';
+const SAVE = '@save';
 
 export const EVENT_TYPE = {
   SUBMIT,
   RESET,
   CHANGE,
   MOVE,
+  REMOVE,
+  SAVE,
 }
 
 export default class View {

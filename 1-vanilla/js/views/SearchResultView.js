@@ -1,12 +1,13 @@
 import View from './View.js';
 
 import { qs } from '../helpers.js';
+import Template from './Template.js';
 
 export default class SearchResultView extends View {
   constructor() {
     super(qs('#search-result-view'));
 
-    this.template = new Template();
+    this.template = new _Template();
   }
 
   show(data = []) {
@@ -17,19 +18,9 @@ export default class SearchResultView extends View {
   }
 }
 
-class Template {
-  getList = (data) => {
-    return `
-      <ul class="result">
-        ${data.map(this._getItem)}      
-      </ul>
-    `;
-  }
-
-  getEmptyMessage = () => {
-    return `
-      <div class="empty-box">검색결과가 없습니다.</div>
-    `;
+class _Template extends Template{
+  constructor() {
+    super('result');
   }
 
   _getItem = ({ name, imageUrl }) => (

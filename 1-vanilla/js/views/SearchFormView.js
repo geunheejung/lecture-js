@@ -37,11 +37,11 @@ export default class SearchFormView extends View {
     event.preventDefault();
 
     const { value } = this.inputElement;
-    const payload = {
-      data: value,
-    }
+    const payload = { data: value };
 
-    this.emit(EVENT_TYPE.SUBMIT, payload);
+    this
+      .emit(EVENT_TYPE.SUBMIT, payload)
+      .emit(EVENT_TYPE.SAVE, value);
   }
 
   handleReset = () => {
@@ -50,11 +50,12 @@ export default class SearchFormView extends View {
 
   resetEvent = () => {
     this.emit(EVENT_TYPE.RESET);
-    this.showResetButton(false);
+    this.show();
   }
 
-  changeInput = (keyword = '') => {
-    if (keyword.length > 0) this.showResetButton();
-    this.inputElement.value = keyword;
+  show(value = '') {
+    this.showResetButton(value.length > 0);
+    this.inputElement.value = value;
+    super.show();
   }
 }

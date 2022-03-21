@@ -8,6 +8,7 @@ export default class Controller {
     searchResultView,
     tabView,
     keywordListView,
+    historyListView,
   }) {
     this.store = store;
 
@@ -15,29 +16,37 @@ export default class Controller {
     this.searchResultView = searchResultView;
     this.tabView = tabView;
     this.keywordListView = keywordListView;
+    this.historyListView = historyListView;
 
     this.subscribeViewEvents();
     this.render();
   }
 
   subscribeViewEvents = () => {
-    this.searchFormView
+    const { searchFormView, tabView, keywordListView, historyListView } = this;
+    searchFormView
       .on(EVENT_TYPE.SUBMIT, this.search)
-      .on(EVENT_TYPE.RESET, this.reset);
+      .on(EVENT_TYPE.RESET, this.reset)
+      .on(EVENT_TYPE.SAVE, this.save);
 
-    this.tabView
+    tabView
       .on(EVENT_TYPE.CHANGE, this.handleTab);
 
-    this.keywordListView.on(EVENT_TYPE.MOVE, this.moveToKeyword);
+    [keywordListView, historyListView].forEach(view =>
+      view.on(EVENT_TYPE.MOVE, this.moveToKeyword)
+    );
+
+    historyListView
+      .on(EVENT_TYPE.REMOVE, this.remove);
   }
 
   search = ({ detail: { data } }) => {
-    this.searchFormView.changeInput(data);
+    this.searchFormView.show(data);
     this.store.search(data);
     this.render();
   }
 
-  reset = (e) => {
+  reset = () => {
     this.store.reset();
     this.render();
   }
@@ -49,6 +58,15 @@ export default class Controller {
 
   moveToKeyword = (e) => {
     this.search(e);
+  }
+
+  remove = ({ detail: data }) => {
+    this.store.removeHistoryData(data);
+    this._renderTabList();
+  }
+
+  save = ({ detail: data }) => {
+    this.store.setHistoryData(data);
   }
 
   render = () => {
@@ -64,13 +82,15 @@ export default class Controller {
   }
 
   _renderTabList = () => {
-    const { keywordListView, store: { selectedTab } } = this;
+    const { keywordListView, historyListView, store: { selectedTab } } = this;
 
     switch (selectedTab) {
       case TabType.KEYWORD:
         keywordListView.show(this.store.keywordData);
+        this.historyListView.hide();
         break;
       case TabType.HISTORY:
+        historyListView.show(this.store.historyData);
         keywordListView.hide();
         break;
       default:
@@ -79,7 +99,7 @@ export default class Controller {
   }
 
   _renderSearchResult = () => {
-    hideAll(this.tabView, this.keywordListView)
+    hideAll(this.tabView, this.keywordListView, this.historyListView);
     this.searchResultView.show(this.store.searchResult);
   }
 }
